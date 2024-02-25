@@ -117,7 +117,7 @@ public static class Config
         IsRifleRapidFire = Category.CreateEntry("IsRifleRapidFire", false, "IsRifleRapidFire", "", true);
         KnightSpeed = Category.CreateEntry("KnightSpeed", LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerKnightVAction>()._controlDefinition.MaxVelocity, "KnightSpeed", "", true);
         KnightJumpForce = Category.CreateEntry("KnightJumpForce", LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerKnightVAction>()._controlDefinition.JumpForce, "KnightJumpForce", "", true);
-        HangGliderSpeed = Category.CreateEntry("HangGliderSpeed", LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._constantForwardForce, "HangGliderSpeed", "", true);
+        HangGliderSpeed = Category.CreateEntry("HangGliderSpeed", LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._hangGliderSettings.ConstantForwardForce, "HangGliderSpeed", "", true);
         HangGliderNoDownforce = Category.CreateEntry("HangGliderNoDownforce", false, "HangGliderNoDownforce", "", true);
         LighterIntensity = Category.CreateEntry("LighterIntensity", -1f, "LighterIntensity", "", true);
         LighterIncRange = Category.CreateEntry("LighterIncRange", false, "LighterIncRange", "", true);

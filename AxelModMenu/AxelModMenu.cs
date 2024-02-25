@@ -18,13 +18,6 @@ public class AxelModMenu : SonsMod
 
     public AxelModMenu()
     {
-        OnGUICallback = OnGUI;
-    }
-
-    private static void OnGUI()
-    {
-        if (!LocalPlayer._instance) return;
-        //GUI.Label(new Rect(200, 200, 200, 200), Teleport.distance.ToString("0"));
     }
 
     protected override void OnInitializeMod()

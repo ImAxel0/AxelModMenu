@@ -11,14 +11,25 @@ using Sons;
 using TheForest;
 using TheForest.Utils;
 using UnityEngine;
+using Endnight.Environment;
+using Endnight.Extensions;
+using Endnight.Utilities;
+using Sons.Extensions;
+using Pathfinding;
+using Sons.Areas;
+using static Sons.Ai.Vail.VailActorVariations;
+using Il2CppSystem;
+using StringSplitOptions = System.StringSplitOptions;
+using static Sons.Ai.Vail.VailWorldSimulation;
+using SonsSdk;
 
 namespace AxelModMenu;
 
 public class Actors
 {
-    public static void SpawnActor(SButtonOptions name)
+    public static void SpawnActor(VailActorTypeId actorTypeId)
     {
-        CharacterManager.Instance.DebugAddCharacter(name._id, true);
+        ActorTools.Spawn(actorTypeId, SonsTools.GetPositionInFrontOfPlayer(4, 2));
     }
 
     public static void KillEnemies()

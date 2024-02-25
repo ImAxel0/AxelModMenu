@@ -7,6 +7,6 @@ public class SpawnCharacters
 {
     public static void SpawnCharacter(SBgButtonOptions chr)
     {
-        CharacterManager.Instance.DebugAddCharacter(chr._id, true);
+        //CharacterManager.Instance.DebugAddCharacter(chr._id, true);
     }
 }

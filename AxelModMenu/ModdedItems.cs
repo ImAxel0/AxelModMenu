@@ -70,25 +70,25 @@ public class ModdedItems
     public static void GliderSpeed(float value)
     {
         Config.HangGliderSpeed.Value = value;
-        LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._constantForwardForce = value;
+        LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._hangGliderSettings.ConstantForwardForce = value;
     }
 
     static float? _baseDownPitchForceBk;
     static float? _upPitchDownForceBk;
     public static void GliderNoDownforce(bool onoff)
     {
-        _baseDownPitchForceBk ??= LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._baseDownPitchForce;
-        _upPitchDownForceBk ??= LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._upPitchDownForce;
+        _baseDownPitchForceBk ??= LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._hangGliderSettings.BaseDownPitchForce;
+        _upPitchDownForceBk ??= LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._hangGliderSettings.UpPitchDownForce;
         Config.HangGliderNoDownforce.Value = onoff;
 
         if (onoff)
         {
-            LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._baseDownPitchForce = 0;
-            LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._upPitchDownForce = 0;
+            LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._hangGliderSettings.BaseDownPitchForce = 0;
+            LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._hangGliderSettings.UpPitchDownForce = 0;
             return;
         }
-        LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._baseDownPitchForce = (float)_baseDownPitchForceBk;
-        LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._upPitchDownForce = (float)_upPitchDownForceBk;
+        LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._hangGliderSettings.BaseDownPitchForce = (float)_baseDownPitchForceBk;
+        LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._hangGliderSettings.UpPitchDownForce = (float)_upPitchDownForceBk;
     }
 
     public static void LighterIntensity(float value)

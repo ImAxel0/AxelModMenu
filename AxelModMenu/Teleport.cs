@@ -50,7 +50,7 @@ public class Teleport
         {
             itemPosition = go.transform;
             Vector3 position = itemPosition.position;
-            DebugConsole.Instance._goto($"{position.x} {position.y} {position.z}");
+            LocalPlayer._instance.Goto(position);
             SonsTools.ShowMessage($"Ran command {Com($"gotoitem {GoToBuffer.Value}")}");
             return;
         }
@@ -81,11 +81,12 @@ public class Teleport
             return;
         }
         Vector3 pos = itemPosition.position;
-        DebugConsole.Instance._goto($"{pos.x} {pos.y} {pos.z}");
+        LocalPlayer._instance.Goto(pos);
     }
     public static void TeleportTo(SButtonOptions coords)
     {
-        DebugConsole.Instance._goto(coords._id);
+        string[] xyz = coords._id.Split(",", StringSplitOptions.None);
+        LocalPlayer._instance.Goto(new Vector3(Convert.ToSingle(xyz[0]), Convert.ToSingle(xyz[1]), Convert.ToSingle(xyz[2])));
     }
 
     public static void SetRaycastMode(bool onoff)

@@ -15,6 +15,7 @@ using Sons.Gameplay.Achievements;
 using TMPro;
 using RedLoader;
 using UnityEngine.UI;
+using Sons.Ai.Vail;
 
 namespace AxelModMenu;
 
@@ -191,7 +192,7 @@ public class AxelModMenuUi
             .Add(AxMenuSliderFloat("Jump force", LabelPosition.Top, 0, 100, LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerKnightVAction>()._controlDefinition.JumpForce, 1f, ModdedItems.KnightJumpForce))
             // HangGlider
             .Add(AxDivider("<color=yellow>HangGlider</color>"))
-            .Add(AxMenuSliderFloat("Speed", LabelPosition.Top, 0, 1000, LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._constantForwardForce, 1f, ModdedItems.GliderSpeed))
+            .Add(AxMenuSliderFloat("Speed", LabelPosition.Top, 0, 1000, LocalPlayer.SpecialActions.transform.GetComponentInChildren<PlayerHangGliderAction>()._hangGliderSettings.ConstantForwardForce, 1f, ModdedItems.GliderSpeed))
             .Add(AxMenuCheckBox("No downforce", ModdedItems.GliderNoDownforce, Config.HangGliderNoDownforce.Value))
             // lighter
             .Add(AxDivider("<color=yellow>Lighter</color>"))
@@ -235,37 +236,18 @@ public class AxelModMenuUi
             .Add(AxMenuInputText("Player limit (uncapped)", LabelPosition.Left, "e.g 10", MultiplayerSettings.PlayerLimitBuffer)
             .Add(AxMenuButtonText("<color=red>Set</color>", MultiplayerSettings.SetPlayerLimit, 40)));
 
-        AxGetMainContainer((SPanelOptions)AxCreateSidePanel(EnemiesPanel, false, "Enemies/Characters", Side.Right, 700, Color.black.WithAlpha(_panelAlpha), EBackground.None, false).Material(PanelBlur.GetForShade(_bgBlurAmount)).OverrideSorting(999).Active(false))
-            // Spawn enemies
-            .Add(AxDivider("<color=yellow>Spawn enemy</color>"))
-            .Add(AxMenuButtonText("Cannibal", Actors.SpawnActor, "cannibal", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Fat", Actors.SpawnActor, "fat", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Muddymale", Actors.SpawnActor, "muddymale", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Muddyfemale", Actors.SpawnActor, "muddyfemale", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Heavy", Actors.SpawnActor, "heavy", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Caterpillar", Actors.SpawnActor, "caterpillar", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Baby", Actors.SpawnActor, "baby", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Twins", Actors.SpawnActor, "twins", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Demon", Actors.SpawnActor, "demon", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Demonboss", Actors.SpawnActor, "demonboss", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Fingers", Actors.SpawnActor, "fingers", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Misspuffy", Actors.SpawnActor, "misspuffy", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Mrpuffy", Actors.SpawnActor, "mrpuffy", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Mrpuffton", Actors.SpawnActor, "mrpuffton", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Creepy virginia", Actors.SpawnActor, "creepyvirginia", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Armsy", Actors.SpawnActor, "armsy", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Frank", Actors.SpawnActor, "frank", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("FinalBoss", Actors.SpawnActor, "boss", 30).Margin(0, 10))
-            // Spawn characters
-            .Add(AxDivider("<color=yellow>Spawn characters</color>"))
-            .Add(AxMenuButtonText("Kelvin", Actors.SpawnActor, "robby", 30).Margin(0, 10))
-            .Add(AxMenuButtonText("Virginia", Actors.SpawnActor, "virginia", 30).Margin(0, 10))
-            // Misc
-            .Add(AxDivider("<color=yellow>Misc</color>"))
-            .Add(AxMenuButton("Kill enemies", Actors.KillEnemies, null, EBackground.None).Margin(0, 10))
-            .Add(AxMenuButton("Kill animals", Actors.KillAnimals, null, EBackground.None).Margin(0, 10))
-            .Add(AxMenuButton("Burn enemies", Actors.BurnEnemies, null, EBackground.None).Margin(0, 10))
-            .Add(AxMenuCheckBox("Freeze actors", Actors.FreezeActors));
+        AxGetMainContainer((SPanelOptions)AxCreateSidePanel(EnemiesPanel, false, "Enemies/Characters", Side.Right, 700, Color.black.WithAlpha(_panelAlpha), EBackground.None, false).Material(PanelBlur.GetForShade(_bgBlurAmount)).OverrideSorting(999).Active(false));
+        var enemiesContainer = AxGetMainContainer(EnemiesPanel);
+        foreach (var actor in Enum.GetValues(typeof(VailActorTypeId)))
+        {
+            enemiesContainer.Add(AxMenuButtonText(actor.ToString(), () => Actors.SpawnActor((VailActorTypeId)actor), 30).Margin(0, 10));
+        }
+        // Misc
+        enemiesContainer.Add(AxDivider("<color=yellow>Misc</color>"));
+        enemiesContainer.Add(AxMenuButton("Kill enemies", Actors.KillEnemies, null, EBackground.None).Margin(0, 10));
+        enemiesContainer.Add(AxMenuButton("Kill animals", Actors.KillAnimals, null, EBackground.None).Margin(0, 10));
+        enemiesContainer.Add(AxMenuButton("Burn enemies", Actors.BurnEnemies, null, EBackground.None).Margin(0, 10));
+        enemiesContainer.Add(AxMenuCheckBox("Freeze actors", Actors.FreezeActors));
 
         if (AxelModMenu.TryGetEmbeddedResourceBytes("map", out var mapBytes) && AxelModMenu.TryGetEmbeddedResourceBytes("playerdot", out var playerdotBytes))
         {
